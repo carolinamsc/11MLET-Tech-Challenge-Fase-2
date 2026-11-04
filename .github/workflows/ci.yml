@@ -26,9 +26,17 @@ jobs:
       - name: Testes
         run: poetry run pytest
 
-  docker:
+  docker-pipeline:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Build da imagem
-        run: docker build -t purchase-intent:ci .
+      - name: Configurar .env
+        run: cp .env.example .env
+      - name: Pipeline completo no Docker (MLflow + dvc repro)
+        run: docker compose --profile pipeline up --build --abort-on-container-exit --exit-code-from pipeline
+      - name: Métricas e registro gerados no container
+        run: |
+          docker compose --profile pipeline run --rm --no-deps pipeline cat reports/metrics.json reports/registry.json
+      - name: Encerrar serviços
+        if: always()
+        run: docker compose --profile pipeline down -v
