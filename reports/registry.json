@@ -1,0 +1,6 @@
+{
+  "registered_model": "11mlet-purchase-intent",
+  "version": 1,
+  "alias": "champion",
+  "model_type": "random_forest"
+}

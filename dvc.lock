@@ -1,0 +1,149 @@
+schema: '2.0'
+stages:
+  download_data:
+    cmd: python scripts/download_dataset.py
+    deps:
+    - path: scripts/download_dataset.py
+      hash: md5
+      md5: f469977e771272171f9b288258210697
+      size: 721
+    params:
+      params.yaml:
+        data.raw_path: data/raw/online_shoppers_intention.csv
+        data.url: 
+          https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv
+    outs:
+    - path: data/raw/online_shoppers_intention.csv
+      hash: md5
+      md5: cc6ec1db03b4f10f8de52c56ff48b085
+      size: 1072063
+  prepare_data:
+    cmd: python -m purchase_intent.data.prepare
+    deps:
+    - path: data/raw/online_shoppers_intention.csv
+      hash: md5
+      md5: cc6ec1db03b4f10f8de52c56ff48b085
+      size: 1072063
+    - path: src/purchase_intent/data/prepare.py
+      hash: md5
+      md5: 615f0a5f7c45b9614945d2b1f9e2c9fb
+      size: 2561
+    params:
+      params.yaml:
+        data.target: Revenue
+        data.test_size: 0.2
+        data.validation_size: 0.2
+        experiment.random_seed: 42
+    outs:
+    - path: data/interim/test.csv
+      hash: md5
+      md5: 43e0a8c1e25be9230235596111d282b9
+      size: 224633
+    - path: data/interim/train.csv
+      hash: md5
+      md5: 2b6b482ec5d654d948c11c93183e1218
+      size: 671620
+    - path: data/interim/validation.csv
+      hash: md5
+      md5: 70363d7c19a7ba07d0c992719d9990b2
+      size: 226091
+  train:
+    cmd: python -m purchase_intent.training.train
+    deps:
+    - path: data/interim/train.csv
+      hash: md5
+      md5: 2b6b482ec5d654d948c11c93183e1218
+      size: 671620
+    - path: data/interim/validation.csv
+      hash: md5
+      md5: 70363d7c19a7ba07d0c992719d9990b2
+      size: 226091
+    - path: src/purchase_intent/metrics.py
+      hash: md5
+      md5: 269538a24c5996d57763af2570b526b8
+      size: 808
+    - path: src/purchase_intent/models/pipeline.py
+      hash: md5
+      md5: 4ffa2705d5120f29eb00879c8e9c9814
+      size: 2247
+    - path: src/purchase_intent/training/train.py
+      hash: md5
+      md5: 5c81706188320549b040ccc8dc86a9a2
+      size: 3944
+    params:
+      params.yaml:
+        data.target: Revenue
+        experiment:
+          random_seed: 42
+        model:
+          candidates:
+            logistic_regression:
+              C: 1.0
+              max_iter: 1000
+              class_weight: balanced
+            random_forest:
+              n_estimators: 300
+              max_depth: 12
+              min_samples_leaf: 2
+              class_weight: balanced
+              n_jobs: -1
+    outs:
+    - path: models/best_run.json
+      hash: md5
+      md5: d55f0d89840f8363a4bb764dc2b649b4
+      size: 287
+    - path: models/purchase_intent.joblib
+      hash: md5
+      md5: e72920b3cb659608156e45e0bda56795
+      size: 15030027
+  evaluate:
+    cmd: python -m purchase_intent.evaluation.evaluate
+    deps:
+    - path: data/interim/test.csv
+      hash: md5
+      md5: 43e0a8c1e25be9230235596111d282b9
+      size: 224633
+    - path: models/best_run.json
+      hash: md5
+      md5: d55f0d89840f8363a4bb764dc2b649b4
+      size: 287
+    - path: models/purchase_intent.joblib
+      hash: md5
+      md5: e72920b3cb659608156e45e0bda56795
+      size: 15030027
+    - path: src/purchase_intent/evaluation/evaluate.py
+      hash: md5
+      md5: 9771fbf8e72cb42b9ed1e761a1f48351
+      size: 1457
+    - path: src/purchase_intent/metrics.py
+      hash: md5
+      md5: 269538a24c5996d57763af2570b526b8
+      size: 808
+    params:
+      params.yaml:
+        data.target: Revenue
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 565e9de135ac147290c911f5a6b92d2d
+      size: 226
+  register:
+    cmd: python -m purchase_intent.registry
+    deps:
+    - path: models/best_run.json
+      hash: md5
+      md5: d55f0d89840f8363a4bb764dc2b649b4
+      size: 287
+    - path: reports/metrics.json
+      hash: md5
+      md5: 565e9de135ac147290c911f5a6b92d2d
+      size: 226
+    - path: src/purchase_intent/registry.py
+      hash: md5
+      md5: 5298350c5a1049c05a7ed8f6e62bf308
+      size: 2261
+    outs:
+    - path: reports/registry.json
+      hash: md5
+      md5: da190c7b2ca8284d9051bbc8f6f9216e
+      size: 127
