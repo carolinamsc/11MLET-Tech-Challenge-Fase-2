@@ -67,7 +67,23 @@ cp .env.example .env
 docker compose --profile pipeline up --build --abort-on-container-exit
 ```
 
-O perfil `pipeline` sobe o MLflow, espera o healthcheck e roda `dvc repro --force` no container (a imagem instala as dependências de produção via Poetry e executa como usuário sem privilégios). Dados, modelos e relatórios ficam montados no workspace; o cache DVC fica num volume nomeado.
+O perfil `pipeline` sobe o MLflow, espera o healthcheck e roda `dvc repro --force` no container. A imagem instala só as dependências de produção via Poetry (multi-stage) e executa como usuário sem privilégios. Dados, modelos, relatórios e cache DVC ficam em volumes nomeados, então funciona igual em Linux, Mac e Windows. Os runs e o modelo `champion` aparecem em http://localhost:5000.
+
+Para ver os resultados gerados no container:
+
+```bash
+docker compose --profile pipeline run --rm --no-deps pipeline dvc metrics show
+```
+
+O job `docker-pipeline` do CI executa exatamente esse fluxo a cada push.
+
+## Usar o modelo campeão
+
+O script de predição carrega do Model Registry a versão com alias `champion` (`models:/11mlet-purchase-intent@champion`) e adiciona as colunas `purchase_probability` e `purchase_prediction`:
+
+```bash
+poetry run python -m purchase_intent.predict data/interim/test.csv reports/predictions.csv
+```
 
 ## DVC
 
@@ -119,6 +135,7 @@ src/purchase_intent/
   training/train.py      treino dos candidatos e tracking MLflow
   evaluation/evaluate.py avaliação no teste
   registry.py            Model Registry e alias champion
+  predict.py             predição com o modelo champion do Registry
   metrics.py             métricas de classificação
 scripts/                 download do dataset, validação do ambiente, regra de 20 linhas
 configs/logging.yaml     configuração de logging
@@ -135,4 +152,4 @@ poetry run python scripts/check_function_length.py   # funções com no máximo 
 poetry run pytest
 ```
 
-O workflow `.github/workflows/ci.yml` roda essas verificações e o build da imagem Docker a cada push.
+O workflow `.github/workflows/ci.yml` roda essas verificações (incluindo um teste de integração com MLflow) e o pipeline completo via Docker Compose a cada push.
