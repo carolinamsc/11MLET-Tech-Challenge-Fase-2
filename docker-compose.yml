@@ -1,0 +1,36 @@
+services:
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.22.5
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+    ports:
+      - "5000:5000"
+    volumes:
+      - mlflow-data:/mlflow
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:5000/health')"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  pipeline:
+    build: .
+    profiles: ["pipeline"]
+    env_file: .env
+    environment:
+      CHALLENGE_MLFLOW_TRACKING_URI: http://mlflow:5000
+    depends_on:
+      mlflow:
+        condition: service_healthy
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./reports:/app/reports
+      - dvc-cache:/app/.dvc/cache
+    command: ["dvc", "repro", "--force"]
+
+volumes:
+  mlflow-data:
+  dvc-cache:
