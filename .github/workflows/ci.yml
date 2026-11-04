@@ -36,7 +36,16 @@ jobs:
         run: docker compose --profile pipeline up --build --abort-on-container-exit --exit-code-from pipeline
       - name: Métricas e registro gerados no container
         run: |
-          docker compose --profile pipeline run --rm --no-deps pipeline cat reports/metrics.json reports/registry.json
+          mkdir -p pipeline-output
+          docker compose --profile pipeline cp pipeline:/app/dvc.lock pipeline-output/
+          docker compose --profile pipeline cp pipeline:/app/reports pipeline-output/
+          docker compose --profile pipeline cp pipeline:/app/models/best_run.json pipeline-output/
+          cat pipeline-output/reports/metrics.json pipeline-output/best_run.json
+      - name: Publicar resultados do pipeline
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-output
+          path: pipeline-output
       - name: Encerrar serviços
         if: always()
         run: docker compose --profile pipeline down -v
