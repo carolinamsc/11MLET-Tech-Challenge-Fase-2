@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "11mlet-tech-challenge-fase-2"
+version = "0.1.0"
+description = "Pipeline de propensão de compra para e-commerce (11MLET Tech Challenge Fase 2)"
+authors = ["Carolina Castro <93956849+carolinamsc@users.noreply.github.com>"]
+readme = "README.md"
+packages = [{ include = "purchase_intent", from = "src" }]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.13"
+scikit-learn = "^1.5"
+mlflow = "^2.12"
+dvc = "^3.50"
+pandas = "^2.2"
+numpy = "^1.26"
+pydantic-settings = "^2.2"
+python-dotenv = "^1.0"
+pyyaml = "^6.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.2"
+pytest-cov = "^5.0"
+ruff = "^0.4"
+pre-commit = "^3.7"
+
+[build-system]
+requires = ["poetry-core>=1.8"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "UP", "B", "ANN", "D"]
+ignore = ["D104", "D107", "ANN101", "ANN102", "ANN401"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["D", "ANN"]
+"scripts/*" = ["D"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
