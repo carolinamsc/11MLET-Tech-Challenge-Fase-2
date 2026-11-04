@@ -60,8 +60,8 @@ stages:
       size: 226091
     - path: src/purchase_intent/metrics.py
       hash: md5
-      md5: 269538a24c5996d57763af2570b526b8
-      size: 808
+      md5: 3958667e827b5271083b630537c0744e
+      size: 791
     - path: src/purchase_intent/models/pipeline.py
       hash: md5
       md5: 4ffa2705d5120f29eb00879c8e9c9814
@@ -117,8 +117,8 @@ stages:
       size: 1457
     - path: src/purchase_intent/metrics.py
       hash: md5
-      md5: 269538a24c5996d57763af2570b526b8
-      size: 808
+      md5: 3958667e827b5271083b630537c0744e
+      size: 791
     params:
       params.yaml:
         data.target: Revenue

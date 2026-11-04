@@ -13,7 +13,7 @@ from sklearn.metrics import (
 def calculate_metrics(
     labels: np.ndarray, predictions: np.ndarray, probabilities: np.ndarray
 ) -> dict[str, float]:
-    """Return threshold and ranking metrics for the positive purchase class."""
+    """Return threshold-based metrics and ROC AUC for the positive purchase class."""
     return {
         "accuracy": float(accuracy_score(labels, predictions)),
         "precision": float(precision_score(labels, predictions, zero_division=0)),
