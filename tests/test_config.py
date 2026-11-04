@@ -18,3 +18,9 @@ def test_json_roundtrip(tmp_path: Path) -> None:
 def test_settings_read_prefixed_environment(monkeypatch) -> None:
     monkeypatch.setenv("CHALLENGE_EXPERIMENT_NAME", "exp-test")
     assert Settings(_env_file=None).experiment_name == "exp-test"
+
+
+def test_json_is_written_with_lf_line_endings(tmp_path: Path) -> None:
+    path = tmp_path / "file.json"
+    write_json({"a": 1, "b": 2}, path)
+    assert b"\r\n" not in path.read_bytes()

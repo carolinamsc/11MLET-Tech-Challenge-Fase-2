@@ -46,7 +46,7 @@ def setup_logging(path: Path = LOGGING_CONFIG_PATH) -> None:
 def write_json(payload: dict[str, Any], path: Path) -> None:
     """Write a dictionary as indented UTF-8 JSON, creating parent folders."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    path.write_text(json.dumps(payload, indent=2), encoding="utf-8", newline="\n")
 
 
 def read_json(path: Path) -> dict[str, Any]:
