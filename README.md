@@ -97,14 +97,14 @@ poetry run python -m purchase_intent.predict data/interim/test.csv reports/predi
 | Modelo | Val. F1 | Val. ROC AUC | Teste F1 | Teste ROC AUC | Teste Recall | Teste Accuracy |
 | --- | --- | --- | --- | --- | --- | --- |
 | Regressão logística | 0.609 | 0.908 | — | — | — | — |
-| **Random Forest (champion)** | **0.691** | **0.930** | **0.652** | **0.922** | **0.715** | **0.882** |
+| **Random Forest (champion)** | **0.679** | **0.933** | **0.646** | **0.925** | **0.783** | **0.867** |
 
-O teste é calculado só para o modelo escolhido na validação. Accuracy sozinha engana com classes desbalanceadas, por isso a seleção usa F1. Detalhes e limitações em [MODEL_CARD.md](MODEL_CARD.md); valores versionados em `reports/metrics.json`.
+Números obtidos com as versões exatas do `poetry.lock` e idênticos no Windows e no pipeline Docker do CI. O teste é calculado só para o modelo escolhido na validação. Accuracy sozinha engana com classes desbalanceadas, por isso a seleção usa F1. Detalhes e limitações em [MODEL_CARD.md](MODEL_CARD.md); valores versionados em `reports/metrics.json`.
 
 ```text
 $ dvc metrics show
-Path                  accuracy    f1       model_type     precision    recall    roc_auc    test_rows
-reports/metrics.json  0.88159     0.65155  random_forest  0.59868      0.71466   0.92227    2466
+Path                  accuracy    f1       model_type     precision    recall    roc_auc    test_rows
+reports/metrics.json  0.86699     0.64579  random_forest  0.54963      0.78272   0.92507    2466
 ```
 
 ### Evidências (MLflow)
