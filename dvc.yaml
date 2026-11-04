@@ -1,0 +1,66 @@
+stages:
+  download_data:
+    cmd: python scripts/download_dataset.py
+    deps:
+      - scripts/download_dataset.py
+    params:
+      - data.url
+      - data.raw_path
+    outs:
+      - data/raw/online_shoppers_intention.csv
+
+  prepare_data:
+    cmd: python -m purchase_intent.data.prepare
+    deps:
+      - data/raw/online_shoppers_intention.csv
+      - src/purchase_intent/data/prepare.py
+    params:
+      - data.target
+      - data.test_size
+      - data.validation_size
+      - experiment.random_seed
+    outs:
+      - data/interim/train.csv
+      - data/interim/validation.csv
+      - data/interim/test.csv
+
+  train:
+    cmd: python -m purchase_intent.training.train
+    deps:
+      - data/interim/train.csv
+      - data/interim/validation.csv
+      - src/purchase_intent/training/train.py
+      - src/purchase_intent/models/pipeline.py
+      - src/purchase_intent/metrics.py
+    params:
+      - data.target
+      - model
+      - experiment
+    outs:
+      - models/purchase_intent.joblib
+      - models/best_run.json:
+          cache: false
+
+  evaluate:
+    cmd: python -m purchase_intent.evaluation.evaluate
+    deps:
+      - data/interim/test.csv
+      - models/purchase_intent.joblib
+      - models/best_run.json
+      - src/purchase_intent/evaluation/evaluate.py
+      - src/purchase_intent/metrics.py
+    params:
+      - data.target
+    metrics:
+      - reports/metrics.json:
+          cache: false
+
+  register:
+    cmd: python -m purchase_intent.registry
+    deps:
+      - models/best_run.json
+      - reports/metrics.json
+      - src/purchase_intent/registry.py
+    outs:
+      - reports/registry.json:
+          cache: false

@@ -1,0 +1,22 @@
+data:
+  url: https://archive.ics.uci.edu/ml/machine-learning-databases/00468/online_shoppers_intention.csv
+  raw_path: data/raw/online_shoppers_intention.csv
+  target: Revenue
+  test_size: 0.2
+  validation_size: 0.2
+
+model:
+  candidates:
+    logistic_regression:
+      C: 1.0
+      max_iter: 1000
+      class_weight: balanced
+    random_forest:
+      n_estimators: 300
+      max_depth: 12
+      min_samples_leaf: 2
+      class_weight: balanced
+      n_jobs: -1
+
+experiment:
+  random_seed: 42
