@@ -76,9 +76,38 @@ O perfil `pipeline` sobe o MLflow, espera o healthcheck e roda `dvc repro --forc
 - `dvc dag` exibe o grafo do pipeline; `dvc params diff` e `dvc metrics diff` comparam experimentos.
 - O dataset fica no cache local (`.dvc/cache`). Para compartilhar entre máquinas, configure um remote (`dvc remote add -d storage <url>`) e rode `dvc push` / `dvc pull`. Sem remote, o estágio `download_data` baixa novamente da fonte oficial e o hash em `dvc.lock` garante que é o mesmo arquivo.
 
-## Resultados (conjunto de teste)
+## Resultados
 
-Veja `reports/metrics.json` e o [MODEL_CARD.md](MODEL_CARD.md). Accuracy sozinha engana com classes desbalanceadas, por isso acompanhamos F1, recall e ROC AUC.
+| Modelo | Val. F1 | Val. ROC AUC | Teste F1 | Teste ROC AUC | Teste Recall | Teste Accuracy |
+| --- | --- | --- | --- | --- | --- | --- |
+| Regressão logística | 0.609 | 0.908 | — | — | — | — |
+| **Random Forest (champion)** | **0.691** | **0.930** | **0.652** | **0.922** | **0.715** | **0.882** |
+
+O teste é calculado só para o modelo escolhido na validação. Accuracy sozinha engana com classes desbalanceadas, por isso a seleção usa F1. Detalhes e limitações em [MODEL_CARD.md](MODEL_CARD.md); valores versionados em `reports/metrics.json`.
+
+```text
+$ dvc metrics show
+Path                  accuracy    f1       model_type     precision    recall    roc_auc    test_rows
+reports/metrics.json  0.88159     0.65155  random_forest  0.59868      0.71466   0.92227    2466
+```
+
+### Evidências (MLflow)
+
+Runs rastreados no experimento `11mlet-purchase-intent`:
+
+![Runs no MLflow](docs/images/mlflow_experimentos.png)
+
+Comparação dos candidatos (parâmetros e métricas de validação/teste):
+
+![Comparação de runs](docs/images/mlflow_comparacao.png)
+
+Métricas do run campeão:
+
+![Métricas do run campeão](docs/images/mlflow_run_metricas.png)
+
+Model Registry com a versão promovida para o alias `champion` e as métricas de teste como tags:
+
+![Model Registry](docs/images/mlflow_model_registry.png)
 
 ## Estrutura
 
