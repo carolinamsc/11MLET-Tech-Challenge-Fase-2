@@ -90,6 +90,7 @@ poetry run python -m purchase_intent.predict data/interim/test.csv reports/predi
 - `dvc.yaml` define os estágios e `dvc.lock` guarda os hashes de dados, código, parâmetros e saídas.
 - `dvc status` mostra o que mudou; `dvc repro` reexecuta só os estágios afetados.
 - `dvc dag` exibe o grafo do pipeline; `dvc params diff` e `dvc metrics diff` comparam experimentos.
+- O `.gitattributes` força LF e as partições CSV/JSON são gravadas com fim de linha LF, então os hashes de código, dados e métricas são idênticos no Windows, Linux e Docker. A exceção é o binário `models/purchase_intent.joblib`: o pickle muda entre sistemas operacionais (tipos inteiros do NumPy), mas as previsões e métricas não.
 - O dataset fica no cache local (`.dvc/cache`). Para compartilhar entre máquinas, configure um remote (`dvc remote add -d storage <url>`) e rode `dvc push` / `dvc pull`. Sem remote, o estágio `download_data` baixa novamente da fonte oficial e o hash em `dvc.lock` garante que é o mesmo arquivo.
 
 ## Resultados
@@ -103,7 +104,8 @@ Números obtidos com as versões exatas do `poetry.lock` e idênticos no Windows
 
 ```text
 $ dvc metrics show
-Path                  accuracy    f1       model_type     precision    recall    roc_auc    test_rows
+Path                  accuracy    f1       model_type     precision    recall    roc_auc    test_rows
+
 reports/metrics.json  0.86699     0.64579  random_forest  0.54963      0.78272   0.92507    2466
 ```
 
