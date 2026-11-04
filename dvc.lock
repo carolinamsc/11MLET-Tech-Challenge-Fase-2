@@ -7,6 +7,10 @@ stages:
       hash: md5
       md5: f469977e771272171f9b288258210697
       size: 721
+    - path: src/purchase_intent/config.py
+      hash: md5
+      md5: dfaaac27b1f7d54901e2df78509df788
+      size: 1920
     params:
       params.yaml:
         data.raw_path: data/raw/online_shoppers_intention.csv
@@ -24,6 +28,10 @@ stages:
       hash: md5
       md5: cc6ec1db03b4f10f8de52c56ff48b085
       size: 1072063
+    - path: src/purchase_intent/config.py
+      hash: md5
+      md5: dfaaac27b1f7d54901e2df78509df788
+      size: 1920
     - path: src/purchase_intent/data/prepare.py
       hash: md5
       md5: 615f0a5f7c45b9614945d2b1f9e2c9fb
@@ -58,6 +66,10 @@ stages:
       hash: md5
       md5: 70363d7c19a7ba07d0c992719d9990b2
       size: 226091
+    - path: src/purchase_intent/config.py
+      hash: md5
+      md5: dfaaac27b1f7d54901e2df78509df788
+      size: 1920
     - path: src/purchase_intent/metrics.py
       hash: md5
       md5: 3958667e827b5271083b630537c0744e
@@ -111,6 +123,10 @@ stages:
       hash: md5
       md5: e72920b3cb659608156e45e0bda56795
       size: 15030027
+    - path: src/purchase_intent/config.py
+      hash: md5
+      md5: dfaaac27b1f7d54901e2df78509df788
+      size: 1920
     - path: src/purchase_intent/evaluation/evaluate.py
       hash: md5
       md5: 9771fbf8e72cb42b9ed1e761a1f48351
@@ -119,6 +135,10 @@ stages:
       hash: md5
       md5: 3958667e827b5271083b630537c0744e
       size: 791
+    - path: src/purchase_intent/training/train.py
+      hash: md5
+      md5: 5c81706188320549b040ccc8dc86a9a2
+      size: 3944
     params:
       params.yaml:
         data.target: Revenue
@@ -138,10 +158,14 @@ stages:
       hash: md5
       md5: 565e9de135ac147290c911f5a6b92d2d
       size: 226
+    - path: src/purchase_intent/config.py
+      hash: md5
+      md5: dfaaac27b1f7d54901e2df78509df788
+      size: 1920
     - path: src/purchase_intent/registry.py
       hash: md5
-      md5: 5298350c5a1049c05a7ed8f6e62bf308
-      size: 2261
+      md5: 3bc86490742d1baf2c8a187d0fb54f5e
+      size: 2337
     outs:
     - path: reports/registry.json
       hash: md5

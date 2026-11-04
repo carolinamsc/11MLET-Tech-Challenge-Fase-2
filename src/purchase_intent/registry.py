@@ -36,7 +36,7 @@ def register_run(client: MlflowClient, settings: Settings, run_id: str) -> Model
     return version
 
 
-def tag_version(client: MlflowClient, version: ModelVersion, metrics: dict) -> None:
+def tag_version(client: MlflowClient, version: ModelVersion, metrics: dict[str, float]) -> None:
     """Store the held-out test metrics on the registered model version."""
     for key in ("f1", "roc_auc", "recall", "precision"):
         client.set_model_version_tag(version.name, version.version, f"test_{key}", metrics[key])

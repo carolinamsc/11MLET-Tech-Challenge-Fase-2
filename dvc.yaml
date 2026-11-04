@@ -3,6 +3,7 @@ stages:
     cmd: python scripts/download_dataset.py
     deps:
       - scripts/download_dataset.py
+      - src/purchase_intent/config.py
     params:
       - data.url
       - data.raw_path
@@ -14,6 +15,7 @@ stages:
     deps:
       - data/raw/online_shoppers_intention.csv
       - src/purchase_intent/data/prepare.py
+      - src/purchase_intent/config.py
     params:
       - data.target
       - data.test_size
@@ -32,6 +34,7 @@ stages:
       - src/purchase_intent/training/train.py
       - src/purchase_intent/models/pipeline.py
       - src/purchase_intent/metrics.py
+      - src/purchase_intent/config.py
     params:
       - data.target
       - model
@@ -48,7 +51,9 @@ stages:
       - models/purchase_intent.joblib
       - models/best_run.json
       - src/purchase_intent/evaluation/evaluate.py
+      - src/purchase_intent/training/train.py
       - src/purchase_intent/metrics.py
+      - src/purchase_intent/config.py
     params:
       - data.target
     metrics:
@@ -61,6 +66,7 @@ stages:
       - models/best_run.json
       - reports/metrics.json
       - src/purchase_intent/registry.py
+      - src/purchase_intent/config.py
     outs:
       - reports/registry.json:
           cache: false
