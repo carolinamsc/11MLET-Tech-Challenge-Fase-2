@@ -25,12 +25,16 @@ services:
       mlflow:
         condition: service_healthy
     volumes:
-      - ./data:/app/data
-      - ./models:/app/models
-      - ./reports:/app/reports
+      # Volumes nomeados herdam o dono (appuser) da imagem: funciona igual em Linux, Mac e Windows.
+      - pipeline-data:/app/data
+      - pipeline-models:/app/models
+      - pipeline-reports:/app/reports
       - dvc-cache:/app/.dvc/cache
     command: ["dvc", "repro", "--force"]
 
 volumes:
   mlflow-data:
+  pipeline-data:
+  pipeline-models:
+  pipeline-reports:
   dvc-cache:
