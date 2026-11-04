@@ -5,8 +5,8 @@ stages:
     deps:
     - path: scripts/download_dataset.py
       hash: md5
-      md5: f469977e771272171f9b288258210697
-      size: 721
+      md5: 3a33d6f4d17691e4bfdda1ad4a2af214
+      size: 700
     - path: src/purchase_intent/config.py
       hash: md5
       md5: dfaaac27b1f7d54901e2df78509df788
@@ -34,8 +34,8 @@ stages:
       size: 1920
     - path: src/purchase_intent/data/prepare.py
       hash: md5
-      md5: 615f0a5f7c45b9614945d2b1f9e2c9fb
-      size: 2561
+      md5: d369e6f0c702cc139f0471d06b869a6c
+      size: 2507
     params:
       params.yaml:
         data.target: Revenue
@@ -45,27 +45,27 @@ stages:
     outs:
     - path: data/interim/test.csv
       hash: md5
-      md5: 43e0a8c1e25be9230235596111d282b9
-      size: 224633
+      md5: e9e3fa9b064fc60fec399159b9a46dee
+      size: 222166
     - path: data/interim/train.csv
       hash: md5
-      md5: 2b6b482ec5d654d948c11c93183e1218
-      size: 671620
+      md5: 11c1f4b89d4a93141c75e061d3992565
+      size: 664221
     - path: data/interim/validation.csv
       hash: md5
-      md5: 70363d7c19a7ba07d0c992719d9990b2
-      size: 226091
+      md5: dce0a1aa44a51a9f4de438c49191abb0
+      size: 223624
   train:
     cmd: python -m purchase_intent.training.train
     deps:
     - path: data/interim/train.csv
       hash: md5
-      md5: 2b6b482ec5d654d948c11c93183e1218
-      size: 671620
+      md5: 11c1f4b89d4a93141c75e061d3992565
+      size: 664221
     - path: data/interim/validation.csv
       hash: md5
-      md5: 70363d7c19a7ba07d0c992719d9990b2
-      size: 226091
+      md5: dce0a1aa44a51a9f4de438c49191abb0
+      size: 223624
     - path: src/purchase_intent/config.py
       hash: md5
       md5: dfaaac27b1f7d54901e2df78509df788
@@ -80,8 +80,8 @@ stages:
       size: 2247
     - path: src/purchase_intent/training/train.py
       hash: md5
-      md5: 5c81706188320549b040ccc8dc86a9a2
-      size: 3944
+      md5: 22df0d269ee67d3fdc83d2818eb75421
+      size: 4050
     params:
       params.yaml:
         data.target: Revenue
@@ -102,27 +102,27 @@ stages:
     outs:
     - path: models/best_run.json
       hash: md5
-      md5: d55f0d89840f8363a4bb764dc2b649b4
-      size: 287
+      md5: 584933dbe89a87ca614fc4821ec93c02
+      size: 751
     - path: models/purchase_intent.joblib
       hash: md5
-      md5: e72920b3cb659608156e45e0bda56795
-      size: 15030027
+      md5: 7d0f2cc797a5aa50245cb86ca91a5eba
+      size: 16047979
   evaluate:
     cmd: python -m purchase_intent.evaluation.evaluate
     deps:
     - path: data/interim/test.csv
       hash: md5
-      md5: 43e0a8c1e25be9230235596111d282b9
-      size: 224633
+      md5: e9e3fa9b064fc60fec399159b9a46dee
+      size: 222166
     - path: models/best_run.json
       hash: md5
-      md5: d55f0d89840f8363a4bb764dc2b649b4
-      size: 287
+      md5: 584933dbe89a87ca614fc4821ec93c02
+      size: 751
     - path: models/purchase_intent.joblib
       hash: md5
-      md5: e72920b3cb659608156e45e0bda56795
-      size: 15030027
+      md5: 7d0f2cc797a5aa50245cb86ca91a5eba
+      size: 16047979
     - path: src/purchase_intent/config.py
       hash: md5
       md5: dfaaac27b1f7d54901e2df78509df788
@@ -137,26 +137,26 @@ stages:
       size: 791
     - path: src/purchase_intent/training/train.py
       hash: md5
-      md5: 5c81706188320549b040ccc8dc86a9a2
-      size: 3944
+      md5: 22df0d269ee67d3fdc83d2818eb75421
+      size: 4050
     params:
       params.yaml:
         data.target: Revenue
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 565e9de135ac147290c911f5a6b92d2d
+      md5: 45a607133b994b2256fe8c21552da9e6
       size: 226
   register:
     cmd: python -m purchase_intent.registry
     deps:
     - path: models/best_run.json
       hash: md5
-      md5: d55f0d89840f8363a4bb764dc2b649b4
-      size: 287
+      md5: 584933dbe89a87ca614fc4821ec93c02
+      size: 751
     - path: reports/metrics.json
       hash: md5
-      md5: 565e9de135ac147290c911f5a6b92d2d
+      md5: 45a607133b994b2256fe8c21552da9e6
       size: 226
     - path: src/purchase_intent/config.py
       hash: md5
@@ -164,8 +164,8 @@ stages:
       size: 1920
     - path: src/purchase_intent/registry.py
       hash: md5
-      md5: 3bc86490742d1baf2c8a187d0fb54f5e
-      size: 2337
+      md5: 0c8ad4949f6995cc87a148e4798a05ec
+      size: 2273
     outs:
     - path: reports/registry.json
       hash: md5
