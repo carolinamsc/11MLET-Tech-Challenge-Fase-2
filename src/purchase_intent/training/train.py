@@ -80,7 +80,12 @@ def save_best(results: list[TrainingResult]) -> TrainingResult:
     best = max(results, key=lambda result: result.metrics[SELECTION_METRIC])
     MODEL_PATH.parent.mkdir(parents=True, exist_ok=True)
     joblib.dump(best.model, MODEL_PATH)
-    summary = {"model_type": best.name, "run_id": best.run_id, "validation": best.metrics}
+    summary = {
+        "model_type": best.name,
+        "run_id": best.run_id,
+        "validation": best.metrics,
+        "candidates": {result.name: result.metrics for result in results},
+    }
     write_json(summary, BEST_RUN_PATH)
     return best
 

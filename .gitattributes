@@ -1,0 +1,4 @@
+# Força LF em todos os SOs: os hashes do DVC (dvc.lock) ficam iguais no Windows, Linux e Docker.
+* text=auto eol=lf
+*.png binary
+*.joblib binary

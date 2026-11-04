@@ -68,7 +68,7 @@ def main() -> None:
     )
     INTERIM_DIR.mkdir(parents=True, exist_ok=True)
     for name, partition in zip(("train", "validation", "test"), partitions, strict=True):
-        partition.to_csv(INTERIM_DIR / f"{name}.csv", index=False)
+        partition.to_csv(INTERIM_DIR / f"{name}.csv", index=False, lineterminator="\n")
 
 
 if __name__ == "__main__":
