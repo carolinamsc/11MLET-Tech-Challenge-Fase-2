@@ -111,6 +111,8 @@ reports/metrics.json  0.86294     0.64119  random_forest  0.53929      0.79058  
 
 ### Evidências (MLflow)
 
+Prints gerados pelo job `docker-pipeline` do CI (`scripts/capture_mlflow_screenshots.py`) logo após o pipeline, e publicados no artefato `pipeline-output`.
+
 Runs rastreados no experimento `11mlet-purchase-intent`:
 
 ![Runs no MLflow](docs/images/mlflow_experimentos.png)
