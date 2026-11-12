@@ -61,6 +61,8 @@ def capture(urls: dict[str, str], output_dir: Path) -> None:
             page = context.new_page()
             page.goto(url, wait_until="networkidle")
             page.wait_for_timeout(RENDER_WAIT_MS)
+            page.keyboard.press("Escape")  # fecha avisos de novidade da UI
+            page.wait_for_timeout(1000)
             page.screenshot(path=str(output_dir / f"{name}.png"), full_page=True)
             page.close()
             print(f"{name}.png <- {url}")
