@@ -34,8 +34,8 @@ stages:
       size: 1934
     - path: src/purchase_intent/data/prepare.py
       hash: md5
-      md5: d369e6f0c702cc139f0471d06b869a6c
-      size: 2507
+      md5: 7188b12495efa0797510f16dd9498384
+      size: 2900
     params:
       params.yaml:
         data.target: Revenue
@@ -70,6 +70,10 @@ stages:
       hash: md5
       md5: 0b556f4f75eccd86f15f08eb50c7d520
       size: 1934
+    - path: src/purchase_intent/data/prepare.py
+      hash: md5
+      md5: 7188b12495efa0797510f16dd9498384
+      size: 2900
     - path: src/purchase_intent/metrics.py
       hash: md5
       md5: 3958667e827b5271083b630537c0744e
@@ -80,8 +84,8 @@ stages:
       size: 2247
     - path: src/purchase_intent/training/train.py
       hash: md5
-      md5: 22df0d269ee67d3fdc83d2818eb75421
-      size: 4050
+      md5: 9eb96cf0575a4d001c981574bc9dbf0d
+      size: 4107
     params:
       params.yaml:
         data.target: Revenue
@@ -102,12 +106,12 @@ stages:
     outs:
     - path: models/best_run.json
       hash: md5
-      md5: 7c2db0753f4d8e636dc4edb1a610ff64
-      size: 725
+      md5: 52d4b88eb4a7e5c840cc15967603d7cf
+      size: 727
     - path: models/purchase_intent.joblib
       hash: md5
-      md5: 7d0f2cc797a5aa50245cb86ca91a5eba
-      size: 16047979
+      md5: e8d83646465fdb97432cf177bc864ab1
+      size: 14830683
   evaluate:
     cmd: python -m purchase_intent.evaluation.evaluate
     deps:
@@ -117,46 +121,50 @@ stages:
       size: 222166
     - path: models/best_run.json
       hash: md5
-      md5: 7c2db0753f4d8e636dc4edb1a610ff64
-      size: 725
+      md5: 52d4b88eb4a7e5c840cc15967603d7cf
+      size: 727
     - path: models/purchase_intent.joblib
       hash: md5
-      md5: 7d0f2cc797a5aa50245cb86ca91a5eba
-      size: 16047979
+      md5: e8d83646465fdb97432cf177bc864ab1
+      size: 14830683
     - path: src/purchase_intent/config.py
       hash: md5
       md5: 0b556f4f75eccd86f15f08eb50c7d520
       size: 1934
+    - path: src/purchase_intent/data/prepare.py
+      hash: md5
+      md5: 7188b12495efa0797510f16dd9498384
+      size: 2900
     - path: src/purchase_intent/evaluation/evaluate.py
       hash: md5
-      md5: 9771fbf8e72cb42b9ed1e761a1f48351
-      size: 1457
+      md5: 0cfb1f61b80c6db5e43372da4d340a42
+      size: 1494
     - path: src/purchase_intent/metrics.py
       hash: md5
       md5: 3958667e827b5271083b630537c0744e
       size: 791
     - path: src/purchase_intent/training/train.py
       hash: md5
-      md5: 22df0d269ee67d3fdc83d2818eb75421
-      size: 4050
+      md5: 9eb96cf0575a4d001c981574bc9dbf0d
+      size: 4107
     params:
       params.yaml:
         data.target: Revenue
     outs:
     - path: reports/metrics.json
       hash: md5
-      md5: 8e7a1b844eb78454e82fd16626635294
+      md5: 97b65344c08fc1bab79b69fafd3abf00
       size: 218
   register:
     cmd: python -m purchase_intent.registry
     deps:
     - path: models/best_run.json
       hash: md5
-      md5: 7c2db0753f4d8e636dc4edb1a610ff64
-      size: 725
+      md5: 52d4b88eb4a7e5c840cc15967603d7cf
+      size: 727
     - path: reports/metrics.json
       hash: md5
-      md5: 8e7a1b844eb78454e82fd16626635294
+      md5: 97b65344c08fc1bab79b69fafd3abf00
       size: 218
     - path: src/purchase_intent/config.py
       hash: md5

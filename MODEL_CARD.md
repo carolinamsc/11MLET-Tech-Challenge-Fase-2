@@ -12,12 +12,12 @@ Partições estratificadas com seed 42: 60% treino, 20% validação (seleção d
 
 ## Modelos avaliados
 
-Ambos usam o mesmo pré-processamento dentro do `Pipeline` do Scikit-Learn: imputação pela mediana e `StandardScaler` nas numéricas; imputação pela moda e `OneHotEncoder` nas categóricas. Os dois usam `class_weight=balanced`.
+Ambos usam o mesmo pré-processamento dentro do `Pipeline` do Scikit-Learn: imputação pela mediana e `StandardScaler` nas numéricas; imputação pela moda e `OneHotEncoder` nas categóricas (`Month`, `VisitorType`, `Weekend` e os códigos `OperatingSystems`, `Browser`, `Region` e `TrafficType`). Os dois usam `class_weight=balanced`.
 
 | Modelo | Hiperparâmetros | Val. F1 | Val. ROC AUC | Val. Recall | Val. Precision |
 | --- | --- | --- | --- | --- | --- |
-| Regressão logística | C=1.0, max_iter=1000 | 0.609 | 0.908 | 0.790 | 0.495 |
-| **Random Forest** (campeão) | 300 árvores, max_depth=12, min_samples_leaf=2 | **0.679** | **0.933** | 0.845 | 0.567 |
+| Regressão logística | C=1.0, max_iter=1000 | 0.602 | 0.903 | 0.780 | 0.491 |
+| **Random Forest** (campeão) | 300 árvores, max_depth=12, min_samples_leaf=2 | **0.666** | **0.929** | 0.845 | 0.549 |
 
 Critério de seleção: maior F1 de validação, por ser o que melhor equilibra precisão e recall na classe minoritária.
 
@@ -25,17 +25,17 @@ Critério de seleção: maior F1 de validação, por ser o que melhor equilibra 
 
 | Métrica | Valor |
 | --- | --- |
-| Accuracy | 0.867 |
-| Precision | 0.550 |
-| Recall | 0.783 |
-| F1 | 0.646 |
-| ROC AUC | 0.925 |
+| Accuracy | 0.863 |
+| Precision | 0.539 |
+| Recall | 0.791 |
+| F1 | 0.641 |
+| ROC AUC | 0.917 |
 
-2.466 sessões de teste, com as versões exatas do `poetry.lock` (mesmo resultado no Windows e no Docker/Linux do CI). Fonte: `reports/metrics.json`, também logado no run do MLflow e gravado como tags da versão registrada (`11mlet-purchase-intent`, alias `champion`).
+2.466 sessões de teste, com as versões exatas do `poetry.lock`, geradas no pipeline Docker/Linux do CI. Fonte: `reports/metrics.json`, também logado no run do MLflow e gravado como tags da versão registrada (`11mlet-purchase-intent`, alias `champion`).
 
 ## Limitações
 
 - O dataset é de 2018 e de um único e-commerce; não representa necessariamente outros canais, países ou sazonalidades.
-- Classes desbalanceadas: com limiar 0,5, o modelo encontra ~78% das compras, mas quase metade das sessões previstas como compra não compram (precision 0,55). O limiar pode ser ajustado conforme o custo de cada erro.
-- `PageValues` é de longe a variável mais importante do Random Forest (~46% da importância) e depende do tracking analítico do site; mudanças nesse cálculo degradam o modelo.
+- Classes desbalanceadas: com limiar 0,5, o modelo encontra ~79% das compras, mas quase metade das sessões previstas como compra não compram (precision 0,54). O limiar pode ser ajustado conforme o custo de cada erro.
+- `PageValues` é de longe a variável mais importante do Random Forest e depende do tracking analítico do site; mudanças nesse cálculo degradam o modelo.
 - Previsões são associações estatísticas, não explicações causais.
