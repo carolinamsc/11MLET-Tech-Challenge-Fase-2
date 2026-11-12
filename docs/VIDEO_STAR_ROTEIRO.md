@@ -18,7 +18,7 @@
 
 ## Result (~1 min)
 - Rodar o pipeline ao vivo (ou mostrar `dvc repro` + `dvc metrics show`).
-- Random Forest venceu: F1 de teste 0,646, ROC AUC 0,925, recall 0,783 (regressão logística: F1 de validação 0,609).
+- Random Forest venceu: F1 de teste 0,641, ROC AUC 0,917, recall 0,791 (regressão logística: F1 de validação 0,602).
 - Prints de apoio: `docs/images/`.
 - Mostrar o CI verde: lint, testes e o pipeline inteiro rodando no Docker a cada push.
 - Aprendizados: seleção por validação mantendo o teste isolado; parâmetros versionados tornam cada experimento reproduzível; métricas além de accuracy em dados desbalanceados; versões travadas no lock e fim de linha LF para os hashes do DVC baterem em qualquer SO.
