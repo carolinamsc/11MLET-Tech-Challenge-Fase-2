@@ -31,6 +31,7 @@ stages:
     deps:
       - data/interim/train.csv
       - data/interim/validation.csv
+      - src/purchase_intent/data/prepare.py
       - src/purchase_intent/training/train.py
       - src/purchase_intent/models/pipeline.py
       - src/purchase_intent/metrics.py
@@ -50,6 +51,7 @@ stages:
       - data/interim/test.csv
       - models/purchase_intent.joblib
       - models/best_run.json
+      - src/purchase_intent/data/prepare.py
       - src/purchase_intent/evaluation/evaluate.py
       - src/purchase_intent/training/train.py
       - src/purchase_intent/metrics.py
