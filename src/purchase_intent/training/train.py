@@ -20,6 +20,7 @@ from purchase_intent.config import (
     setup_logging,
     write_json,
 )
+from purchase_intent.data.prepare import read_sessions
 from purchase_intent.metrics import calculate_metrics
 from purchase_intent.models.pipeline import build_pipeline
 
@@ -96,7 +97,7 @@ def main() -> None:
     settings = Settings()
     params = load_params()
     seed = params["experiment"]["random_seed"]
-    data = {name: pd.read_csv(INTERIM_DIR / f"{name}.csv") for name in ("train", "validation")}
+    data = {name: read_sessions(INTERIM_DIR / f"{name}.csv") for name in ("train", "validation")}
     mlflow.set_tracking_uri(settings.mlflow_tracking_uri)
     mlflow.set_experiment(settings.experiment_name)
     results = [

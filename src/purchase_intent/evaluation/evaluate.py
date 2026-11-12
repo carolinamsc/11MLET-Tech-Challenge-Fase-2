@@ -4,7 +4,6 @@ import logging
 
 import joblib
 import mlflow
-import pandas as pd
 
 from purchase_intent.config import (
     BEST_RUN_PATH,
@@ -17,6 +16,7 @@ from purchase_intent.config import (
     setup_logging,
     write_json,
 )
+from purchase_intent.data.prepare import read_sessions
 from purchase_intent.training.train import evaluate_partition
 
 logger = logging.getLogger(__name__)
@@ -34,7 +34,7 @@ def main() -> None:
     """Compute test metrics, log them to MLflow and save them for DVC."""
     setup_logging()
     target = load_params()["data"]["target"]
-    test = pd.read_csv(INTERIM_DIR / "test.csv")
+    test = read_sessions(INTERIM_DIR / "test.csv")
     best_run = read_json(BEST_RUN_PATH)
     metrics = evaluate_partition(joblib.load(MODEL_PATH), test, target)
     log_test_metrics(best_run["run_id"], metrics, Settings())

@@ -13,6 +13,7 @@ import pandas as pd
 from sklearn.pipeline import Pipeline
 
 from purchase_intent.config import Settings, load_params, setup_logging
+from purchase_intent.data.prepare import read_sessions
 
 logger = logging.getLogger(__name__)
 
@@ -47,7 +48,7 @@ def main() -> None:
     setup_logging()
     args = parse_args()
     model = load_champion(Settings())
-    scored = score_sessions(model, pd.read_csv(args.input_csv), load_params()["data"]["target"])
+    scored = score_sessions(model, read_sessions(args.input_csv), load_params()["data"]["target"])
     args.output_csv.parent.mkdir(parents=True, exist_ok=True)
     scored.to_csv(args.output_csv, index=False)
     logger.info("%d sessões pontuadas em %s", len(scored), args.output_csv)

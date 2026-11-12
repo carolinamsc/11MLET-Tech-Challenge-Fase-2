@@ -18,6 +18,16 @@ CATEGORICAL_COLUMNS = (
 )
 
 
+def read_sessions(path: Path) -> pd.DataFrame:
+    """Read a sessions CSV keeping the coded categorical columns as text.
+
+    Pandas would otherwise infer ``OperatingSystems``, ``Browser``, ``Region`` and
+    ``TrafficType`` as integers, and the model would scale them instead of one-hot
+    encoding them.
+    """
+    return pd.read_csv(path, dtype=dict.fromkeys(CATEGORICAL_COLUMNS, str))
+
+
 def encode_target(values: pd.Series) -> pd.Series:
     """Convert UCI boolean-like target values to integer labels."""
     if pd.api.types.is_bool_dtype(values):
