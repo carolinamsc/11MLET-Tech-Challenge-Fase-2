@@ -8,10 +8,6 @@ Pipeline de Engenharia de Machine Learning para estimar a **propensão de compra
 | --- | --- |
 | Carolina Castro | [@carolinamsc](https://github.com/carolinamsc) |
 
-## Vídeo (método STAR)
-
-Link do vídeo: _a preencher_ — roteiro em [docs/VIDEO_STAR_ROTEIRO.md](docs/VIDEO_STAR_ROTEIRO.md).
-
 ## Problema e dados
 
 Cada linha é uma sessão; a coluna `Revenue` indica se a sessão terminou em compra (classificação binária, ~15,5% positivos). São 12.330 sessões e 17 atributos (numéricos de navegação + categóricos como mês, tipo de visitante e tráfego). Fonte: Sakar e Kastro, UCI Machine Learning Repository, DOI [10.24432/C5F88Q](https://doi.org/10.24432/C5F88Q), licença CC BY 4.0.
