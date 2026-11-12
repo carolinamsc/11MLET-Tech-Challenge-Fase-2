@@ -41,6 +41,15 @@ jobs:
           docker compose --profile pipeline cp pipeline:/app/reports pipeline-output/
           docker compose --profile pipeline cp pipeline:/app/models/best_run.json pipeline-output/
           cat pipeline-output/reports/metrics.json pipeline-output/best_run.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Prints do MLflow (evidências)
+        run: |
+          docker compose up -d --wait mlflow
+          pip install playwright
+          playwright install --with-deps chromium
+          python scripts/capture_mlflow_screenshots.py pipeline-output/mlflow
       - name: Publicar resultados do pipeline
         uses: actions/upload-artifact@v4
         with:
